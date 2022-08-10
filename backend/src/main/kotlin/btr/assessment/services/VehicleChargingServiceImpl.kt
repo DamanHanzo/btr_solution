@@ -19,7 +19,7 @@ class VehicleChargingServiceImpl(
 ) : VehicleChargingService {
     private val vehicleChargeStatusMap: MutableMap<String, ChargeEvent> = HashMap()
 
-    override fun handleChargeEvent(chargeEvent: ChargeEvent) {
+    override fun handleChargeEvent(chargeEvent: ChargeEvent) =
         if (chargeEvent.startTime == null && chargeEvent.endTime == null) {
             throw IllegalArgumentException("Start time and end time can both be null")
         } else if (chargeEvent.startTime != null && chargeEvent.endTime == null) {
@@ -30,7 +30,6 @@ class VehicleChargingServiceImpl(
             startCharging(chargeEvent)
             stopCharging(chargeEvent)
         }
-    }
 
     private fun startCharging(chargeEvent: ChargeEvent) {
         if (vehicleChargeStatusMap.containsKey(chargeEvent.vehicleId)) {

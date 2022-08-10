@@ -39,6 +39,6 @@ class VehicleChargingController(
         if (vehicleManagementService.getVehicle(vehicleId = chargeEvent.vehicleId) != null) {
            vehicleChargingService.handleChargeEvent(chargeEvent)
         }
-        return HttpResponse.ok("Success")
+            return HttpResponse.ok("Success")
     }
 }

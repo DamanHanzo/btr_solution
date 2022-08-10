@@ -3,16 +3,19 @@ package btr.assessment.controllers
 import btr.assessment.common.Utils.Companion.buildVehicleId
 import btr.assessment.models.ChargeEvent
 import btr.assessment.models.Vehicle
+import btr.assessment.services.VehicleManagementService
 import btr.assessment.services.VehicleManagementServiceImpl
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.http.client.exceptions.HttpClientResponseException
+import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.mockk
 import jakarta.inject.Inject
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -28,8 +31,11 @@ class VehicleChargingControllerTest {
     @field:Client("/")
     lateinit var client: HttpClient
 
-    @MockK
-    lateinit var vehicleManagementService: VehicleManagementServiceImpl
+    @Inject
+    lateinit var vehicleManagementService: VehicleManagementService
+
+    @MockBean(VehicleManagementServiceImpl::class)
+    fun vehicleMgmtService():VehicleManagementService = mockk()
 
     @Test
     fun testCreateStartChargeEvent() {
