@@ -1,6 +1,6 @@
 ## BTR Vehicle Emissions Calculator
 
-Logic for handling of setting up vehicles for charging, and calculating related emissions per energy source.
+Logic for handling of setting up of vehicles for charging, and calculating related emissions per each energy source.
 
 ### Requirements
 
@@ -12,8 +12,10 @@ Logic for handling of setting up vehicles for charging, and calculating related 
 ---
 
 ### Run Locally
-Simple issue the following command from terminal: `./mvnw mn:run`.
-Service by default listens on port 8080
+
+- Simply issue the following command from terminal: `./mvnw mn:run`.
+- Service by default listens on port 8080.
+---
 
 ### API Reference
 #### Add/Create Vehicle(`POST`)
@@ -27,6 +29,12 @@ Service by default listens on port 8080
     - Required
 - Returns(response):
   - `vehicleId`: Id of the successfully added vehicle
+
+#### Get All Vehicles(`GET`)
+
+- Endpoint for retrieving all vehicles currently in the app
+- Accepts: Nothing
+- Returns(response): list of all vehicles maintained in the app
 
 #### Create/Updating Charge Event(`POST`)
 
@@ -57,4 +65,3 @@ Service by default listens on port 8080
   - `windEmissions`: total emissions created by wind energy consumption during charge
   - `gasEmissions`: total emissions created by gas energy consumption during charge
   - `coalEmissions`: total emissions created by coal energy consumption during charge
-
