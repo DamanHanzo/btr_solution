@@ -1,0 +1,38 @@
+micronaut:
+  codec:
+    json:
+      additionalTypes:
+        - text/javascript
+emission-rates:
+  solar:
+    sunday: 50
+    monday: 45
+    tuesday: 43
+    wednesday: 34
+    thursday: 47
+    friday: 51
+    saturday: 54
+  coal:
+    sunday: 431
+    monday: 389
+    tuesday: 391
+    wednesday: 524
+    thursday: 456
+    friday: 512
+    saturday: 524
+  wind:
+    sunday: 14
+    monday: 11
+    tuesday: 9
+    wednesday: 15
+    thursday: 12
+    friday: 12
+    saturday: 11
+  gas:
+    sunday: 418
+    monday: 415
+    tuesday: 433
+    wednesday: 402
+    thursday: 422
+    friday: 398
+    saturday: 412
