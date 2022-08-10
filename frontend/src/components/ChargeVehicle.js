@@ -49,12 +49,33 @@ function CreateChargeEventl({ vehicles, handleNewChargeEvent }) {
             setFormErrors(allErrors)
         } else {
             event.preventDefault()
-            setFormErrors({})
-            setValidated(true)
-            setChargeSaveStatus(true)
+            const allErrors = {}
+            if (startHour === "" && endHour !== "") {
+                allErrors.startComesBeforeEnd = "Start year needs to specified before end year"
+            }
+            if (endHour <= startHour) {
+                allErrors.endMoreThanStart = "End hour cannot be less than start hour"
+            }
+            if (startHour < 0 || startHour > 23) {
+                allErrors.startHourOutOfRange = "Start hour begins at 0 and has to be less than or equal 23"
+            }
+            if (endHour < 0 || endHour > 23) {
+                allErrors.endHourOutOfRange = "End hour begins at 0 and has to be less than or equal 23"
+            }
+            if (isEmpty(allErrors)) {
+                setFormErrors({})
+                setValidated(true)
+                setChargeSaveStatus(true)
+            } else {
+                setFormErrors(allErrors)
+                setValidated(false)
+                setChargeSaveStatus(false)
+                event.stopPropagation()
+                return;
+            }
             axios({
                 method: 'post',
-                url: process.env.REACT_APP_BACKEND_API+'/charge',
+                url: process.env.REACT_APP_BACKEND_API + '/charge',
                 data: {
                     vehicleId: selectedVehicleId,
                     startTime: startHour,
@@ -87,7 +108,7 @@ function CreateChargeEventl({ vehicles, handleNewChargeEvent }) {
                         <Form.Group className="mb-3">
                             <Form.Label htmlFor='vehicles'>Vehicles</Form.Label>
                             <Form.Control
-                                isInvalid={!!setFormErrors.selectedVehicleId}
+                                isInvalid={!!formErrors.selectedVehicleId}
                                 id="vehicles"
                                 as="select"
                                 type="select"
@@ -99,43 +120,65 @@ function CreateChargeEventl({ vehicles, handleNewChargeEvent }) {
                                     <option key={vehicle.id} value={vehicle.id}>{vehicle.make} - {vehicle.model}</option>
                                 )}
                             </Form.Control>
-                            {setFormErrors.selectedVehicleId &&
+                            {formErrors.selectedVehicleId &&
                                 <Form.Control.Feedback type="invalid">
-                                    {setFormErrors.selectedVehicleId}
+                                    {formErrors.selectedVehicleId}
                                 </Form.Control.Feedback>
                             }
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label htmlFor='startTime'>Start Hour</Form.Label>
-                            <Form.Control isInvalid={!!setFormErrors.startAndEndNotDefined}
+                            <Form.Control isInvalid={!!formErrors.startAndEndNotDefined || !!formErrors.startHourOutOfRange || !!formErrors.startComesBeforeEnd}
                                 placeholder="Enter Start Hour"
                                 id="startTime"
                                 defaultValue={startHour}
                                 onChange={(e) => setStartHour(e.target.value)}
-                                required={!!formErrors.startAndEndNotDefined} />
+                                type="number"
+                                required={!!formErrors.startAndEndNotDefined || !!formErrors.startHourOutOfRange || !!formErrors.startComesBeforeEnd} />
                             <Form.Text className="text-muted">
-                                Please hour of the day in 24 hour format i.e 0-23
+                                Please enter hour of the day in 24 hour format i.e 0-23
                             </Form.Text>
                             {formErrors.startAndEndNotDefined &&
                                 <Form.Control.Feedback type="invalid">
                                     {formErrors.startAndEndNotDefined}
+                                </Form.Control.Feedback>
+                            }
+                            {formErrors.startHourOutOfRange &&
+                                <Form.Control.Feedback type="invalid">
+                                    {formErrors.startHourOutOfRange}
+                                </Form.Control.Feedback>
+                            }
+                            {formErrors.startComesBeforeEnd &&
+                                <Form.Control.Feedback type="invalid">
+                                    {formErrors.startComesBeforeEnd}
                                 </Form.Control.Feedback>
                             }
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label htmlFor='endHour'>End Hour</Form.Label>
                             <Form.Control placeholder="Enter End Hour"
-                                isInvalid={!!formErrors.startAndEndNotDefined}
+                                isInvalid={!!formErrors.startAndEndNotDefined || !!formErrors.endHourOutOfRange || !!formErrors.endMoreThanStart}
                                 id='endHour'
                                 defaultValue={endHour}
                                 onChange={(e) => setEndHour(e.target.value)}
-                                required={!!formErrors.startAndEndNotDefined} />
+                                type="number"
+                                required={!!formErrors.startAndEndNotDefined || !!formErrors.endHourOutOfRange || !!formErrors.endMoreThanStart} />
                             <Form.Text className="text-muted">
-                                Please hour of the day in 24 hour format i.e 0-23
+                                Please enter hour of the day in 24 hour format i.e 0-23
                             </Form.Text>
                             {formErrors.startAndEndNotDefined &&
                                 <Form.Control.Feedback type="invalid">
                                     {formErrors.startAndEndNotDefined}
+                                </Form.Control.Feedback>
+                            }
+                            {formErrors.endHourOutOfRange &&
+                                <Form.Control.Feedback type="invalid">
+                                    {formErrors.endHourOutOfRange}
+                                </Form.Control.Feedback>
+                            }
+                            {formErrors.endMoreThanStart &&
+                                <Form.Control.Feedback type="invalid">
+                                    {formErrors.endMoreThanStart}
                                 </Form.Control.Feedback>
                             }
                         </Form.Group>
