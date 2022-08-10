@@ -88,12 +88,15 @@ function AddVehicle({ handleNewVehicle }) {
                             <Form.Control
                                 isInvalid={!!formErrors.make}
                                 placeholder="Make"
-                                id="vehicleMake" defaultValue={make}
-                                onChange={(e) => setMake(capitalizeFirst(e.target.value))}
+                                id="vehicleMake" 
+                                value={make}
+                                onChange={
+                                    event => {
+                                        let value = capitalizeFirst(event.target.value)
+                                        setMake(_ => value)
+                                    }
+                                }
                                 required />
-                            <Form.Text className="text-muted">
-                                Please capitlize the first letter of the make i.e Honda
-                            </Form.Text>
                             {formErrors.make && <Form.Control.Feedback type="invalid">
                                 {formErrors.make}
                             </Form.Control.Feedback>}
@@ -104,12 +107,14 @@ function AddVehicle({ handleNewVehicle }) {
                                 isInvalid={!!formErrors.model}
                                 placeholder="Model"
                                 id='vehicleModel'
-                                defaultValue={model}
-                                onChange={(e) => setModel(capitalizeFirst(e.target.value))}
+                                value={model}
+                                onChange={
+                                    event => {
+                                        let value = capitalizeFirst(event.target.value)
+                                        setModel(_ => value)
+                                    }
+                                }
                                 required />
-                            <Form.Text className="text-muted">
-                                Please capitlize the first letter of the model i.e Accord
-                            </Form.Text>
                             {formErrors.model && <Form.Control.Feedback type="invalid">
                                 {formErrors.model}
                             </Form.Control.Feedback>}
