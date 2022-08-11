@@ -48,7 +48,7 @@ Logic for handling of setting up of vehicles for charging, and calculating relat
     - Optional
   - **Note**: One of the two `startTime` or `endTime` need to be specified. Both cannot be null.
 - Returns(response):
- - Success Http Status(200 OK) with response body if successful
+  - Success Http Status(200 OK) with response body if successful
 
 #### Retrieve Charge Event Details(`GET`)
 
